@@ -1,5 +1,6 @@
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
@@ -15,13 +16,16 @@ public class Main {
         driver.manage().window().maximize();
         driver.get("https://www.wrike.com/");
 
-        HomePage homePage = new HomePage(driver);
-        ResendPage resendPage = new ResendPage(driver);
+        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+        ResendPage resendPage = PageFactory.initElements(driver, ResendPage.class);
+        FooterSection footerSection = PageFactory.initElements(driver, FooterSection.class);
 
         homePage.clickGetStarted();
         homePage.inputRandomEmail();
         homePage.clickCreateButton();
         resendPage.fillQA();
-        resendPage.checkFooterTwitter();
+        footerSection.checkFooterTwitter();
+
+        //driver.quit();
     }
 }
