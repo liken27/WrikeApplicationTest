@@ -23,10 +23,8 @@ public class ResendPage {
     @FindBy(xpath = "//button[@class='submit wg-btn wg-btn--navy js-survey-submit']")
     private WebElement submitButton;
 
-
     // Fill in the Q&A section at the left part of page (like random generated answers) + check with assertion that your answers are submitted
     public ResendPage fillQA() {
-
         // Interest radio div
         List<WebElement> interest = driver.findElements(By.xpath(interestXpath));
         randomAnswer = (new Random().nextInt(interest.size())) + 1;
@@ -52,9 +50,7 @@ public class ResendPage {
 
         // Submit results
         submitButton.click();
-        System.out.println("I've submitted smth");
 
         return this;
     }
-
 }
