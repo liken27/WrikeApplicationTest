@@ -1,12 +1,11 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -32,17 +31,11 @@ public class HomePageTest {
 
     @Test
     public void checkIfPageHasChanged() {
-        // Setting variables
-        WebElement getStartedButton = driver.findElement(By.xpath("//div[@class='r']//button"));
-        WebElement trialInputField = driver.findElement(By.xpath("//label[@class='modal-form-trial__label']/input"));
-        WebElement trialCreateButton = driver.findElement(By.xpath("//label[@class='modal-form-trial__label']/button"));
-        String randomText = RandomStringUtils.randomAlphabetic(10);
-
+        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
         // Executing methods
-        getStartedButton.click();
-        randomText = randomText.concat("+wpt@wriketask.qaa");
-        trialInputField.sendKeys(randomText);
-        trialCreateButton.click();
+        homePage.clickGetStarted();
+        homePage.inputRandomEmail();
+        homePage.clickCreateButton();
 
         // Checking with assertion
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//h3[contains(text(), 'Help us provide you the best possible experience:')]")));

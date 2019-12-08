@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,6 +21,7 @@ public class ResendPageTest {
 
     private WebDriver driver;
     private WebDriverWait wait;
+    private HomePage homePage;
     private ResendPage resendPage;
 
     @Before
@@ -31,56 +33,23 @@ public class ResendPageTest {
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get("https://www.wrike.com/");
+        homePage = new HomePage(driver);
         resendPage = new ResendPage(driver);
 
-        WebElement getStartedButton = driver.findElement(By.xpath("//div[@class='r']//button"));
-        WebElement trialInputField = driver.findElement(By.xpath("//label[@class='modal-form-trial__label']/input"));
-        WebElement trialCreateButton = driver.findElement(By.xpath("//label[@class='modal-form-trial__label']/button"));
-        String randomText = RandomStringUtils.randomAlphabetic(10);
-
-        getStartedButton.click();
-        randomText = randomText.concat("+wpt@wriketask.qaa");
-        trialInputField.sendKeys(randomText);
-        trialCreateButton.click();
+        // Navigating to the resend page
+        HomePage homePage = PageFactory.initElements(driver, HomePage.class);
+        homePage.clickGetStarted();
+        homePage.inputRandomEmail();
+        homePage.clickCreateButton();
     }
 
     @Test
     public void checkResultsSubmit() {
-        // Setting variables
-        String randomText;
-        int randomAnswer;
-        String interestXpath = "//div[@data-code='interest_in_solution']/label";
-        String teamXpath = "//div[@data-code='team_members']/label";
-        String businessXpath = "//div[@data-code='primary_business']/label";
-        WebElement submitButton = driver.findElement(By.xpath("//button[@class='submit wg-btn wg-btn--navy js-survey-submit']"));
         WebElement surveySuccess = driver.findElement(By.xpath("//div[@class='survey-success']"));
-
-        // Filling and submitting the form
+        ResendPage resendPage = PageFactory.initElements(driver, ResendPage.class);
+        // Executing methods
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@data-code='interest_in_solution']/label")));
-        // Interest radio div
-        List<WebElement> interest = driver.findElements(By.xpath(interestXpath));
-        randomAnswer = (new Random().nextInt(interest.size())) + 1;
-        interestXpath = interestXpath.concat("[" + randomAnswer + "]");
-        driver.findElement(By.xpath(interestXpath)).click();
-
-        // Team members radio div
-        List<WebElement> team = driver.findElements(By.xpath(teamXpath));
-        randomAnswer = (new Random().nextInt(team.size())) + 1;
-        teamXpath = teamXpath.concat("[" + randomAnswer + "]");
-        driver.findElement(By.xpath(teamXpath)).click();
-
-        // Business radio div
-        List<WebElement> business = driver.findElements(By.xpath(businessXpath));
-        randomAnswer = (new Random().nextInt(business.size())) + 1;
-        businessXpath = businessXpath.concat("[" + randomAnswer + "]");
-        driver.findElement(By.xpath(businessXpath)).click();
-        if (randomAnswer == 3) {
-            randomText = RandomStringUtils.randomAlphabetic(20);
-            businessXpath = businessXpath.concat("/button//input");
-            driver.findElement(By.xpath(businessXpath)).sendKeys(randomText);
-        }
-
-        submitButton.click();
+        resendPage.fillQA();
 
         // Checking with assertion
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='survey-success']")));

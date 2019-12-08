@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 public class FooterSectionTest {
 
     private WebDriver driver;
-    private WebDriverWait wait;
     private FooterSection footerSection;
 
     @Before
@@ -21,7 +20,6 @@ public class FooterSectionTest {
         System.setProperty("webdriver.gecko.driver", "d:\\!!Projects\\WrikeApplicationTest\\driver\\geckodriver.exe");
         //driver = new ChromeDriver();
         driver = new FirefoxDriver();
-        wait = (new WebDriverWait(driver, 5));
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.manage().window().maximize();
         driver.get("https://www.wrike.com/");

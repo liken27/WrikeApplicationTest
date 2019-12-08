@@ -28,7 +28,7 @@ public class Main {
         homePage.inputRandomEmail();
         homePage.clickCreateButton();
         resendPage.fillQA();
-        footerSection.checkFooterTwitter();
+        //footerSection.checkFooterTwitter();
 
         driver.quit();
     }
