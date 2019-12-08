@@ -45,16 +45,18 @@ public class ResendPageTest {
 
     @Test
     public void checkResultsSubmit() {
-        WebElement surveySuccess = driver.findElement(By.xpath("//div[@class='survey-success']"));
+        By interestSolution = By.xpath("//div[@data-code='interest_in_solution']/label");
+        By surveySuccess = By.xpath("//div[@class='survey-success']");
+        WebElement surveySuccessElem = driver.findElement(surveySuccess);
         ResendPage resendPage = PageFactory.initElements(driver, ResendPage.class);
         // Executing methods
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@data-code='interest_in_solution']/label")));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(interestSolution));
         resendPage.fillQA();
 
         // Checking with assertion
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='survey-success']")));
-        if (surveySuccess.isDisplayed()) {
-            Assert.assertEquals("survey-success", surveySuccess.getAttribute("class"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(surveySuccess));
+        if (surveySuccessElem.isDisplayed()) {
+            Assert.assertEquals("survey-success", surveySuccessElem.getAttribute("class"));
         } else fail("Submit confirmation form has not appeared");
     }
 

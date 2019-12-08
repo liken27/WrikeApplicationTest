@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
@@ -28,12 +29,11 @@ public class FooterSectionTest {
 
     @Test
     public void checkTwitterFooter() {
-        WebElement footerSocials = driver.findElement(By.xpath("//ul[@class='wg-footer__social-list']"));
-        WebElement footerTwitterButton = driver.findElement(By.xpath("//ul[@class='wg-footer__social-list']/li[1]/a"));
+        FooterSection footerSection = PageFactory.initElements(driver, FooterSection.class);
 
-        Assert.assertTrue("There's no Twitter button in footer", footerSocials.getAttribute("innerHTML").contains("href=\"https://twitter.com/wrike\" rel=\"dofollow\" target=\"_blank\""));
-        Assert.assertTrue("Wrong URL on Twitter button", footerTwitterButton.getAttribute("href").equals("https://twitter.com/wrike"));
-        Assert.assertTrue("Wrong icon on Twitter button", footerTwitterButton.getAttribute("innerHTML").contains("/content/themes/wrike/dist/img/sprite/vector/footer-icons.symbol.svg?v2#twitter"));
+        Assert.assertTrue("There's no Twitter button in footer", footerSection.containsTwitter());
+        Assert.assertTrue("Wrong URL on Twitter button", footerSection.linkTwitterIsValid());
+        Assert.assertTrue("Wrong icon on Twitter button", footerSection.iconTwitterIsValid());
     }
 
     @After

@@ -42,7 +42,7 @@ public class ResendPage {
         randomAnswer = (new Random().nextInt(business.size())) + 1;
         businessXpath = businessXpath.concat("[" + randomAnswer + "]");
         driver.findElement(By.xpath(businessXpath)).click();
-        if (randomAnswer == 3) {
+        if (randomAnswer == business.size()) {
             randomText = RandomStringUtils.randomAlphabetic(20);
             businessXpath = businessXpath.concat("/button//input");
             driver.findElement(By.xpath(businessXpath)).sendKeys(randomText);
@@ -50,7 +50,6 @@ public class ResendPage {
 
         // Submit results
         submitButton.click();
-
         return this;
     }
 }
